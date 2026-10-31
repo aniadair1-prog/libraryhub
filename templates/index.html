@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibraryHub</title>
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+>
+</head>
+<body>
+    <main class="container">    <h1>LibraryHub</h1>
+    <p>Manage books, members, and loans.</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <p>
+            <strong>{{ message }}</strong>
+        </p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<p>
+    <a href="{{ url_for('loans') }}">View loans</a>
+</p>
+
+<p>
+    <a href="{{ url_for('members') }}">Manage members</a>
+</p>
+
+<p>
+    <a href="{{ url_for('add_book') }}">Add a book</a>
+
+<p>
+  
+</p>
+    <h2>Library dashboard</h2>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Total books</th>
+        <th>Available books</th>
+        <th>Active loans</th>
+        <th>Overdue loans</th>
+    </tr>
+    <tr>
+        <td>{{ stats.total_books }}</td>
+        <td>{{ stats.available_books }}</td>
+        <td>{{ stats.active_loans }}</td>
+        <td>{{ stats.overdue_loans }}</td>
+    </tr>
+</table>
+    <h2>Search books</h2>
+
+<form method="get" action="{{ url_for('home') }}">
+    <label for="search">Title or author:</label>
+    <input
+        id="search"
+        name="search"
+        type="search"
+        value="{{ search_term }}"
+        placeholder="Search books..."
+    >
+    <button type="submit">Search</button>
+    <a href="{{ url_for('home') }}">Clear</a>
+</form>
+
+<h2>Books</h2>
+
+    {% if books %}
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Published year</th>
+	    <th>Availability</th>
+        </tr>
+
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.authors }}</td>
+            <td>{{ book.isbn }}</td>
+            <td>{{ book.published_year }}</td>
+            <td>{{ book.availability }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No books found.</p>
+    {% endif %}
+    </main></body>
+</html>

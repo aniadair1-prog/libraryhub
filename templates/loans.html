@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loans - LibraryHub</title>
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+>
+</head>
+<body>
+    <main class="container">
+    <h1>LibraryHub</h1>
+
+   <p>
+    <a href="{{ url_for('home') }}">Books</a>
+</p>
+
+<p>
+    <a href="{{ url_for('checkout') }}">
+        Check out a book
+    </a>
+</p>
+<p>
+    <a href="{{ url_for('members') }}">
+        Manage members
+    </a>
+</p>
+
+    <h2>Loans</h2>
+
+    {% if loan_records %}
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Book</th>
+            <th>Member</th>
+            <th>Borrowed on</th>
+            <th>Due on</th>
+            <th>Returned on</th>
+           <th>Status</th>
+<th>Action</th>
+        </tr>
+
+        {% for loan in loan_records %}
+        <tr>
+            <td>{{ loan.title }}</td>
+            <td>{{ loan.member }}</td>
+            <td>{{ loan.borrowed_on }}</td>
+            <td>{{ loan.due_on }}</td>
+            <td>
+                {% if loan.returned_on %}
+                    {{ loan.returned_on }}
+                {% else %}
+                    Not returned
+                {% endif %}
+            </td>
+            <td>{{ loan.status }}</td>
+<td>
+    {% if not loan.returned_on %}
+    <form
+        method="post"
+        action="{{ url_for('return_book', loan_id=loan.loan_id) }}"
+    >
+        <button type="submit">Return book</button>
+    </form>
+    {% else %}
+    Completed
+    {% endif %}
+</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No loans found.</p>
+    {% endif %}
+    </main></body>
+</html>

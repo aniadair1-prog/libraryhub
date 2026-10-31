@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Out Book - LibraryHub</title>
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+>
+</head>
+<body>
+    <main class="container">
+    <h1>Check Out a Book</h1>
+     {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <p>
+            <strong>{{ message }}</strong>
+        </p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+    <p>
+        <a href="{{ url_for('loans') }}">Back to loans</a>
+    </p>
+
+    {% if books and members %}
+    <form method="post">
+        <p>
+            <label for="book_id">Book:</label>
+            <select id="book_id" name="book_id" required>
+                {% for book in books %}
+                <option value="{{ book.book_id }}">
+                    {{ book.title }}
+                </option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <p>
+            <label for="member_id">Member:</label>
+            <select id="member_id" name="member_id" required>
+                {% for member in members %}
+                <option value="{{ member.member_id }}">
+                    {{ member.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <p>
+            <label for="due_on">Due date:</label>
+           <input
+    id="due_on"
+    name="due_on"
+    type="date"
+    min="{{ today }}"
+    required
+>
+        </p>
+
+        <button type="submit">Check out book</button>
+    </form>
+    {% else %}
+    <p>
+        Checkout is unavailable. You need at least one available book
+        and one registered member.
+    </p>
+    {% endif %}
+</body>
+  </main></html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members - LibraryHub</title>
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+>
+</head>
+<body>
+    <main class="container">
+    <h1>LibraryHub Members</h1>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <p>
+            <strong>{{ message }}</strong>
+        </p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+    <p>
+        <a href="{{ url_for('home') }}">Books</a>
+    </p>
+
+    <p>
+        <a href="{{ url_for('loans') }}">Loans</a>
+    </p>
+
+    <h2>Add a member</h2>
+
+    <form method="post">
+        <p>
+            <label for="name">Name:</label>
+            <input
+                id="name"
+                name="name"
+                type="text"
+                required
+            >
+        </p>
+
+        <p>
+            <label for="email">Email:</label>
+            <input
+                id="email"
+                name="email"
+                type="email"
+                required
+            >
+        </p>
+
+        <button type="submit">Add member</button>
+    </form>
+
+    <h2>Existing members</h2>
+
+    {% if member_records %}
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Joined</th>
+        </tr>
+
+        {% for member in member_records %}
+        <tr>
+            <td>{{ member.name }}</td>
+            <td>{{ member.email }}</td>
+            <td>{{ member.joined_on }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No members found.</p>
+    {% endif %}
+    </main></body>
+</html>

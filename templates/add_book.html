@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book - LibraryHub</title>
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+>
+</head>
+<body>
+    <main class="container">
+    <h1>Add a Book</h1>
+
+    <p>
+        <a href="{{ url_for('home') }}">Back to books</a>
+    </p>
+
+    <form method="post">
+        <p>
+            <label for="title">Book title:</label>
+            <input
+                id="title"
+                name="title"
+                type="text"
+                required
+            >
+        </p>
+
+        <p>
+    <label for="author_names">
+        Authors, separated by commas:
+    </label>
+    <input
+        id="author_names"
+        name="author_names"
+        type="text"
+        placeholder="George Orwell, Mary Shelley"
+        required
+    >
+</p>
+
+        <p>
+            <label for="isbn">ISBN:</label>
+            <input
+                id="isbn"
+                name="isbn"
+                type="text"
+            >
+        </p>
+
+        <p>
+            <label for="published_year">Published year:</label>
+            <input
+                id="published_year"
+                name="published_year"
+                type="number"
+                min="0"
+                max="2100"
+            >
+        </p>
+
+        <button type="submit">Add book</button>
+    </form>
+</main></body>
+</html>
